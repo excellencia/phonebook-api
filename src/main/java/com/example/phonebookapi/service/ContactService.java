@@ -29,9 +29,15 @@ public class ContactService {
 
     public Contact updateContact(Long id, Contact updatedContact) {
         return contactRepository.findById(id).map(contact -> {
-            contact.setFirstName(updatedContact.getFirstName());
-            contact.setLastName(updatedContact.getLastName());
-            contact.setPhoneNumber(updatedContact.getPhoneNumber());
+            if (updatedContact.getFirstName() != null) {
+                contact.setFirstName(updatedContact.getFirstName());
+            }
+            if (updatedContact.getLastName() != null) {
+                contact.setLastName(updatedContact.getLastName());
+            }
+            if (updatedContact.getPhoneNumber() != null) {
+                contact.setPhoneNumber(updatedContact.getPhoneNumber());
+            }
             return contactRepository.save(contact);
         }).orElseThrow(() -> new ResourceNotFoundException("Contact not found with id " + id));
     }
