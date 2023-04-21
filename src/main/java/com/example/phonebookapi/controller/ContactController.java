@@ -3,11 +3,15 @@ package com.example.phonebookapi.controller;
 import com.example.phonebookapi.customException.ResourceNotFoundException;
 import com.example.phonebookapi.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.phonebookapi.service.ContactService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.validation.Valid;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,8 +34,15 @@ public class ContactController {
     }
 
     @PostMapping
-    public Contact createContact(@Valid @RequestBody Contact contact) {
-        return contactService.createContact(contact);
+    public ResponseEntity<?> createContact(@Valid @RequestBody Contact contact) {
+        try {
+            Contact newContact = contactService.createContact(contact);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(newContact.getId()).toUri();
+            return ResponseEntity.created(location).body(newContact);
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.badRequest().body("Phone number already exists");
+        }
     }
 
     @PutMapping("/{id}")

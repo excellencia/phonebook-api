@@ -1,39 +1,34 @@
 package com.example.phonebookapi.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.*;
-import org.hibernate.Hibernate;
 
-import java.util.Objects;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "contacts",uniqueConstraints = @UniqueConstraint(columnNames = "phoneNumber"))
 public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     private String firstName;
+
+    @NotEmpty
     private String lastName;
+
+    @NotEmpty
+    @Length(min = 10, max = 10, message = "Phone number must be exactly 10 digits")
+    @Pattern(regexp = "\\d+", message = "Phone number must contain only digits")
     private String phoneNumber;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Contact contact = (Contact) o;
-        return id != null && Objects.equals(id, contact.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
+
