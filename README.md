@@ -11,8 +11,15 @@ The phonebook-api application provides a RESTful API for managing contacts. With
 
 The application is built using Java Spring Boot, which provides a robust and scalable framework for building RESTful APIs.
 
+## Technology Used
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2
+- Maven
+
 ## Getting started
-To run the phonebook-api application, you will need to have Java 11 or higher installed on your machine. Once Java is installed, you can follow these steps:
+To run the phonebook-api application, you will need to have Java 17 or higher installed on your machine. Once Java is installed, you can follow these steps:
 
 1. Clone the repository using the following command:
 
@@ -22,7 +29,18 @@ To run the phonebook-api application, you will need to have Java 11 or higher in
 ```sh
 cd phonebook-api
 ```
-4. Run the application using the following command:
+4. Add following sample values in `application.properties` file
+```sh
+spring.datasource.url=jdbc:h2:mem:phonebookdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa #default username
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+```
+5. Run the application using the following command:
 ```sh
 ./mvnw spring-boot:run
 ```
