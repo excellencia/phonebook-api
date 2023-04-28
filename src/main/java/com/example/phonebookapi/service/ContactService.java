@@ -1,6 +1,5 @@
 package com.example.phonebookapi.service;
 
-import com.example.phonebookapi.customException.ResourceNotFoundException;
 import com.example.phonebookapi.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

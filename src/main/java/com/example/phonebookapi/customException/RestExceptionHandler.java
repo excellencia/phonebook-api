@@ -22,6 +22,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(),HttpStatus.NOT_FOUND.toString(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @Override
     @Nullable
     protected ResponseEntity<Object> handleExceptionInternal(
